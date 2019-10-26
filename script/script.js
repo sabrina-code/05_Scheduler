@@ -1,71 +1,58 @@
 $(document).ready(function(){
- //************************* DATE*********************************/
-  const now = moment().format('LLLL');
-  $("#currentDay").text(now);
-  $("#scheduleDate").text(now);
-                            //const dateOnly = moment().format("MMM Do YY");
 
-  
-        //console.log(typeof(nowTime)); is an object 
-  //var nowTime = moment().format("lll");
-        //console.log(nowTime); is a string that as Oct 22, 2019 4:03 PM
+const now = moment().format('LLLL');
+$("#currentDay").text(now);
 
+//************************* FORM ******************************/
+var hour = [ "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
+var task = ["task0", "task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8" ];
+var save = ["save0", "save1", "save2", "save3", "save4", "save5", "save6", "save7", "save8" ];
+var workHr = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+var mTime = JSON.parse(moment().format("HH"));
 
-  var currentSelectedDate = $("#datepicker").datepicker({ 
-        dateFormat: "yy-mm-dd", 
-            onSelect: function(){
-            var selected = $(this).val();      
-                // $("#scheduleDate").text(selected);         
-                // console.log(selected);
-                // $("#scheduleDate").text(selected);
-            var dateVar = moment(selected);
-            var newDateVar = dateVar.utc().format();
-                // console.log(newDateVar);
-            var a = moment.utc(newDateVar).format("dddd, MMMM D, YYYY");
-            var displayedDate = $("#scheduleDate").text(a); //an object console.log(typeof(theDate));               
-        }
-    });
-   
- //************************* FORM ******************************/
-
- var hour = [ "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
- var task = ["task0", "task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8" ];
- var save = ["save0", "save1", "save2", "save3", "save4", "save5", "save6", "save7", "save8" ];
-
-    $( "<form/>", {
-        "class": "row",
-        click: function() {
-          $( this ).toggleClass( "test" );
-        }
-      })
-     .appendTo( "div#scheduler" );
+$( "<form/>", {
+    "class": "row",
+    click: function() {
+        $( this ).toggleClass( "test" );
+    }
+    }).appendTo( "div#scheduler" );
 
  for (var i=0; i<task.length; i++){
     $( "<div/>", {
         "class": "hour col-2",
-        text: hour[i],
-      }) 
-    .appendTo( "form" );   
+        text: hour[i]
+      }).appendTo( "form" );   
     
     $( "<textarea/>", {
         "id": task[i],
         "class": "task",
         "rows": "3",
-        "maxlength": "356",        
-    })
-    .appendTo( "form" );
+        "maxlength": "356",
+        "name": workHr[i]  
+    }).appendTo( "form" );
 
     $( "<button/>", {
         "id": save[i],
         "class": "save",
-        "type": "submit",
-    })
-    .appendTo( "form" );
+        "type": "submit"
+    }).appendTo( "form" );
  }
+
  $("<span>").appendTo("textarea"); //each textarea has a span, only one
-//************************* DATA ********************************/
- 
-$(".save").attr('disabled', true); 
+  
+for (var j=0; j<9; j++){
+    var timeSlot=document.getElementById(task[j]).name;       
+    console.log(timeSlot);
+    if (timeSlot<mTime){
+        (document.getElementById(task[j])).style.backgroundColor="#dbfef4";
+    }else if (timeSlot>mTime){
+        (document.getElementById(task[j])).style.backgroundColor="#c5d7f8";
+    }else{
+        (document.getElementById(task[j])).style.backgroundColor="white";
+    }
+}
+//************************* DATA ********************************/ 
+$(".save").attr('disabled', true);              
 
 $("#task0").keyup(function(){
     if($("#task0").val().length !=0){
@@ -133,8 +120,11 @@ $("#task8").keyup(function(){
     }
 });
 
-//************************* SAVE ********************************/
-//local Storage               
+//************************* local Storage   ********************************/
+
+var taskElName = ["#task0", "#task1", "#task2", "#task3", "#task4", "#task5", "#task6", "#task7", "#task8" ];
+ var saveElName = ["#save0", "#save1", "#save2", "#save3", "#save4", "#save5", "#save6", "#save7", "#save8" ];
+
 var task0Input = document.querySelector("#task0");
 var task1Input = document.querySelector("#task1");
 var task2Input = document.querySelector("#task2");
@@ -167,19 +157,18 @@ var task6Span = document.querySelector("textarea#task6");
 var task7Span = document.querySelector("textarea#task7");
 var task8Span = document.querySelector("textarea#task8");
 
-
-
 saveBtn0.addEventListener("click", function(event){
     event.preventDefault();
-    var item0 = {am9: task0Input.value};   
+    var item0 = {am9: task0Input.value.trim()};   
     localStorage.setItem("item0", JSON.stringify(item0));
     var displayItem0 = JSON.parse(localStorage.getItem("item0"));
     task0Span.textContent = displayItem0.am9;
 });
+
 saveBtn1.addEventListener("click", function(event){
     event.preventDefault();
     var item1 = {am10: task1Input.value.trim()};
-    localStorage.setItem("item1", JSON.stringify(item1));
+    localStorage.setItem(item1, JSON.stringify(item1));
     var displayItem1 = JSON.parse(localStorage.getItem("item1"));
     task1Span.textContent = displayItem1.am10;
 });
@@ -232,6 +221,8 @@ saveBtn8.addEventListener("click", function(event){
     var displayItem8 = JSON.parse(localStorage.getItem("item8"));
     task8Span.textContent = displayItem1.pm5;
 });
+
+
 
 });// end of jquery 
 
