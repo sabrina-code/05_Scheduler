@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-const now = moment().format('LLLL');
+var now = moment().format('LLLL');
 $("#currentDay").text(now);
 
 //************************* FORM ******************************/
@@ -8,7 +8,8 @@ var hour = [ "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", 
 var task = ["task0", "task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8" ];
 var save = ["save0", "save1", "save2", "save3", "save4", "save5", "save6", "save7", "save8" ];
 var workHr = [9, 10, 11, 12, 13, 14, 15, 16, 17];
-var mTime = JSON.parse(moment().format("HH"));
+// var mTime = JSON.parse(moment().format("HH"));
+var mTime = moment().format("HH");
 
 $( "<form/>", {
     "class": "row",
@@ -122,9 +123,6 @@ $("#task8").keyup(function(){
 
 //************************* local Storage   ********************************/
 
-var taskElName = ["#task0", "#task1", "#task2", "#task3", "#task4", "#task5", "#task6", "#task7", "#task8" ];
- var saveElName = ["#save0", "#save1", "#save2", "#save3", "#save4", "#save5", "#save6", "#save7", "#save8" ];
-
 var task0Input = document.querySelector("#task0");
 var task1Input = document.querySelector("#task1");
 var task2Input = document.querySelector("#task2");
@@ -134,7 +132,6 @@ var task5Input = document.querySelector("#task5");
 var task6Input = document.querySelector("#task6");
 var task7Input = document.querySelector("#task7");
 var task8Input = document.querySelector("#task8");
-var task9Input = document.querySelector("#task9");
 
 var saveBtn0 = document.querySelector("#save0");
 var saveBtn1 = document.querySelector("#save1");
@@ -145,7 +142,6 @@ var saveBtn5 = document.querySelector("#save5");
 var saveBtn6 = document.querySelector("#save6");
 var saveBtn7 = document.querySelector("#save7");
 var saveBtn8 = document.querySelector("#save8");
-var saveBtn9 = document.querySelector("#save9");
 
 var task0Span = document.querySelector("textarea#task0");
 var task1Span = document.querySelector("textarea#task1");
@@ -168,7 +164,7 @@ saveBtn0.addEventListener("click", function(event){
 saveBtn1.addEventListener("click", function(event){
     event.preventDefault();
     var item1 = {am10: task1Input.value.trim()};
-    localStorage.setItem(item1, JSON.stringify(item1));
+    localStorage.setItem("item1", JSON.stringify(item1));
     var displayItem1 = JSON.parse(localStorage.getItem("item1"));
     task1Span.textContent = displayItem1.am10;
 });
@@ -212,14 +208,14 @@ saveBtn7.addEventListener("click", function(event){
     var item7 = {pm4: task7Input.value.trim()};
     localStorage.setItem("item7", JSON.stringify(item7));
     var displayItem7 = JSON.parse(localStorage.getItem("item7"));
-    task7Span.textContent = displayItem1.pm4;
+    task7Span.textContent = displayItem7.pm4;
 });
 saveBtn8.addEventListener("click", function(event){
     event.preventDefault();
     var item8 = {pm5: task8Input.value.trim()};
     localStorage.setItem("item8", JSON.stringify(item8));
     var displayItem8 = JSON.parse(localStorage.getItem("item8"));
-    task8Span.textContent = displayItem1.pm5;
+    task8Span.textContent = displayItem8.pm5;
 });
 
 
