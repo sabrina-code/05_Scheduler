@@ -8,8 +8,9 @@ var hour = [ "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", 
 var task = ["task0", "task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8" ];
 var save = ["save0", "save1", "save2", "save3", "save4", "save5", "save6", "save7", "save8" ];
 var workHr = [9, 10, 11, 12, 13, 14, 15, 16, 17];
-// var mTime = JSON.parse(moment().format("HH"));
-var mTime = moment().format("HH");
+// var mTime = JSON.parse(moment().format("HH")); This does not work!
+var mTime = parseInt(moment().format("HH"));
+console.log(mTime);
 
 $( "<form/>", {
     "class": "row",
@@ -45,9 +46,9 @@ for (var j=0; j<9; j++){
     var timeSlot=document.getElementById(task[j]).name;       
     console.log(timeSlot);
     if (timeSlot<mTime){
-        (document.getElementById(task[j])).style.backgroundColor="#dbfef4";
+        (document.getElementById(task[j])).style.backgroundColor="#dbfef4"; //light green 
     }else if (timeSlot>mTime){
-        (document.getElementById(task[j])).style.backgroundColor="#c5d7f8";
+        (document.getElementById(task[j])).style.backgroundColor="#c5d7f8";//light blue 
     }else{
         (document.getElementById(task[j])).style.backgroundColor="white";
     }
